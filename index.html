@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dark Fantasy Showdown Prompt Generator</title>
+  <style>
+    :root {
+      --bg: #0b0807;
+      --bg-2: #140f0d;
+      --panel: rgba(28, 19, 16, 0.94);
+      --panel-2: rgba(37, 25, 22, 0.96);
+      --text: #f7efe9;
+      --muted: #cbb7ab;
+      --soft: #9f887b;
+      --line: #3a2a24;
+      --accent: #e86f2f;
+      --accent-2: #ffb870;
+      --accent-3: #ffd8b1;
+      --success: #7de2b2;
+      --shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      --radius-xl: 26px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --radius-sm: 12px;
+      --max: 1500px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 0%, rgba(232,111,47,0.18), transparent 25%),
+        radial-gradient(circle at 85% 10%, rgba(255,184,112,0.1), transparent 20%),
+        linear-gradient(180deg, #120d0b 0%, #0b0807 100%);
+      min-height: 100vh;
+    }
+
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 26px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 22px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--panel-2), var(--panel));
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-main {
+      position: relative;
+      padding: 32px;
+      min-height: 260px;
+      isolation: isolate;
+    }
+
+    .hero-main::before {
+      content: "";
+      position: absolute;
+      inset: auto -70px -70px auto;
+      width: 260px;
+      height: 260px;
+      background: radial-gradient(circle, rgba(232,111,47,0.25), transparent 68%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255,184,112,0.08);
+      border: 1px solid rgba(255,184,112,0.18);
+      color: var(--accent-2);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 42px;
+      line-height: 1.03;
+      letter-spacing: -0.03em;
+    }
+
+    .lead {
+      margin: 0;
+      max-width: 880px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    .hero-points {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .chip {
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      color: var(--accent-3);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .hero-side {
+      display: grid;
+      gap: 14px;
+      padding: 22px;
+      align-content: start;
+    }
+
+    .stat {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,0.025);
+    }
+
+    .stat strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--accent-2);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .panel {
+      padding: 24px;
+    }
+
+    .panel h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .sub {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 26px 0 16px;
+      color: var(--accent-2);
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.02em;
+    }
+
+    .section-divider::before,
+    .section-divider::after {
+      content: "";
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--line), transparent);
+      flex: 1;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 13px;
+      color: #f4d9c9;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    select,
+    textarea,
+    input {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #120d0c;
+      color: var(--text);
+      border-radius: var(--radius-md);
+      padding: 13px 14px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.12s ease;
+    }
+
+    select:focus,
+    textarea:focus,
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(232,111,47,0.14);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 110px;
+      line-height: 1.6;
+    }
+
+    .mini-input {
+      min-height: 72px;
+      font-size: 13px;
+    }
+
+    .actions,
+    .preset-actions,
+    .output-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .actions { margin-top: 20px; }
+    .preset-actions { margin-top: 14px; }
+    .output-actions { margin-top: 14px; }
+
+    button {
+      border: 0;
+      border-radius: 14px;
+      padding: 13px 18px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.12s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+      letter-spacing: 0.01em;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+
+    .primary {
+      background: linear-gradient(135deg, var(--accent), #ff8c47);
+      color: white;
+      box-shadow: 0 12px 28px rgba(232,111,47,0.26);
+    }
+
+    .secondary {
+      background: #261a17;
+      border: 1px solid var(--line);
+      color: var(--text);
+    }
+
+    .ghost {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .success {
+      background: rgba(125,226,178,0.12);
+      border: 1px solid rgba(125,226,178,0.3);
+      color: #d8fff0;
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .preset-btn {
+      text-align: left;
+      min-height: 58px;
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .preset-btn span {
+      display: block;
+      color: var(--soft);
+      font-weight: 500;
+      margin-top: 3px;
+      font-size: 12px;
+    }
+
+    .output-box {
+      width: 100%;
+      min-height: 170px;
+      background: #120d0c;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      color: #f9f1ea;
+      padding: 16px;
+      line-height: 1.65;
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    .output-box.short {
+      min-height: 110px;
+    }
+
+    .output-box.tall {
+      min-height: 220px;
+    }
+
+    .note,
+    .footer-note {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .howto,
+    .examples,
+    .formula,
+    .mini-cards {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .howto-item,
+    .example,
+    .formula-card,
+    .mini-card {
+      padding: 15px 16px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.025);
+      line-height: 1.62;
+    }
+
+    .howto-item strong,
+    .formula-card strong,
+    .mini-card strong {
+      color: var(--accent-2);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--accent-3);
+      background: rgba(255,255,255,0.03);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .sticky-output {
+      position: sticky;
+      top: 18px;
+    }
+
+    .footer {
+      margin-top: 24px;
+      text-align: center;
+      color: var(--soft);
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding-bottom: 8px;
+    }
+
+    @media (max-width: 1150px) {
+      .hero,
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sticky-output {
+        position: static;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .wrap { padding: 16px; }
+      .grid,
+      .preset-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 32px; }
+      .actions,
+      .preset-actions,
+      .output-actions { flex-direction: column; }
+      button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="card hero-main">
+        <div class="eyebrow">Premium Prompt Generator</div>
+        <h1><strong>Dark Fantasy Showdown Prompt Generator</strong></h1>
+        <p class="lead">
+          Build dramatic dark fantasy prompts centered on one unforgettable moment: a lone warrior confronting a colossal beast inside a ruined, high-stakes world. This generator is designed for cinematic fantasy art, poster-style scenes, AI image prompting, and story-rich concept visuals with strong scale, tension, lighting, and atmosphere.
+        </p>
+        <div class="hero-points">
+          <div class="chip">Hero vs Monster</div>
+          <div class="chip">Cinematic Realism</div>
+          <div class="chip">Ruins + Atmosphere</div>
+          <div class="chip">Photo Prompt + Video Prompt</div>
+          <div class="chip">Randomizer + Presets</div>
+        </div>
+      </div>
+
+      <div class="card hero-side">
+        <div class="stat">
+          <strong>What it does</strong>
+          Creates rich prompt outputs for dark fantasy battle scenes with dramatic compositions, visual scale, destruction, mood, and polished prompt language.
+        </div>
+        <div class="stat">
+          <strong>Best for</strong>
+          Dragon battles, cursed beast encounters, ruined kingdom scenes, epic posters, fantasy book covers, and high-drama AI art generations.
+        </div>
+        <div class="stat">
+          <strong>Core visual promise</strong>
+          One hero. One overwhelming creature. One cinematic confrontation that feels massive, emotional, and unforgettable.
+        </div>
+      </div>
+    </section>
+
+    <section class="card panel" aria-labelledby="howtoTitle">
+      <h2 id="howtoTitle">How to Use</h2>
+      <p class="sub">This now follows the actual workflow in order: choose a preset or read the formula first, build your scene, generate the prompt, then copy the output.</p>
+      <div class="howto">
+        <div class="howto-item"><strong>1.</strong> Start with a preset if you want a fast finished direction, or use the prompt formula below to understand the structure first.</div>
+        <div class="howto-item"><strong>2.</strong> Fill in the hero, creature, environment, destruction, mood, and cinematic controls.</div>
+        <div class="howto-item"><strong>3.</strong> Add any custom visual notes to make the scene more original and more detailed.</div>
+        <div class="howto-item"><strong>4.</strong> Generate your prompt, then copy the photo prompt, video prompt, or negative prompt.</div>
+      </div>
+    </section>
+
+    <section class="layout" style="margin-top:24px; grid-template-columns: 1fr 1fr;">
+      <div class="card panel">
+        <h2>Start Here: Preset Directions</h2>
+        <p class="sub">Preset directions belong at the top because they are the fastest way to begin. Click one to instantly load a strong scene direction before you customize anything else.</p>
+        <div class="preset-grid" id="presetGrid"></div>
+        <div class="preset-actions">
+          <button class="secondary" id="smartFillBtn">Generate With Preset Style</button>
+          <button class="secondary" id="randomBtn">Randomize Scene</button>
+          <button class="ghost" id="clearBtn">Clear All</button>
+        </div>
+      </div>
+
+      <div class="card panel">
+        <h2>Prompt Formula</h2>
+        <p class="sub">This guidance belongs before the builder so it helps the user structure the prompt before generation instead of showing up after the work is already done.</p>
+
+        <div class="formula">
+          <div class="formula-card"><strong>Base formula:</strong> Hero + weapon + outfit + giant creature + confrontation moment + ruined world + destruction + cinematic lighting + atmosphere + camera + composition + mood + finish + texture detail.</div>
+          <div class="formula-card"><strong>Best results:</strong> Keep scale contrast strong, give the creature clear surface detail, and let the environment support the drama instead of feeling random.</div>
+        </div>
+
+        <div class="section-divider">Quick Quality Tips</div>
+        <div class="mini-cards">
+          <div class="mini-card"><strong>Use one strong hero.</strong> This niche looks best when the human figure is isolated against the huge threat.</div>
+          <div class="mini-card"><strong>Pair lighting with the creature.</strong> Fire, frost, rot, lightning, smoke, or ash should feel connected to the monster’s presence.</div>
+          <div class="mini-card"><strong>Make the world react.</strong> Add broken stone, ash, falling debris, wind, sparks, or torn banners so the scene feels alive.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card panel" style="margin-top:24px;">
+      <h2>Build Your Scene</h2>
+      <p class="sub">Now fill the generator in order, top to bottom, so the prompt builds logically from subject to world to cinematic finish.</p>
+
+      <div class="section-divider">Subject and Threat</div>
+      <div class="grid">
+        <div class="field">
+          <label for="heroType">Hero Type</label>
+          <select id="heroType"></select>
+          <textarea id="heroTypeCustom" class="mini-input" placeholder="Optional extra hero details"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="heroLook">Hero Look</label>
+          <select id="heroLook"></select>
+          <textarea id="heroLookCustom" class="mini-input" placeholder="Optional extra appearance details"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="weapon">Weapon</label>
+          <select id="weapon"></select>
+          <textarea id="weaponCustom" class="mini-input" placeholder="Optional weapon details"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="armor">Armor / Outfit</label>
+          <select id="armor"></select>
+          <textarea id="armorCustom" class="mini-input" placeholder="Optional armor details"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="creatureType">Creature Type</label>
+          <select id="creatureType"></select>
+          <textarea id="creatureTypeCustom" class="mini-input" placeholder="Optional creature details"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="creatureTraits">Creature Traits</label>
+          <select id="creatureTraits"></select>
+          <textarea id="creatureTraitsCustom" class="mini-input" placeholder="Optional texture, anatomy, or damage details"></textarea>
+        </div>
+      </div>
+
+      <div class="section-divider">Story Moment and World</div>
+      <div class="grid">
+        <div class="field">
+          <label for="moment">Confrontation Moment</label>
+          <select id="moment"></select>
+          <textarea id="momentCustom" class="mini-input" placeholder="Optional action detail"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="environment">Environment</label>
+          <select id="environment"></select>
+          <textarea id="environmentCustom" class="mini-input" placeholder="Optional location detail"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="destruction">Destruction Level</label>
+          <select id="destruction"></select>
+          <textarea id="destructionCustom" class="mini-input" placeholder="Optional destruction detail"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="atmosphere">Atmosphere Effects</label>
+          <select id="atmosphere"></select>
+          <textarea id="atmosphereCustom" class="mini-input" placeholder="Optional weather or particles"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="mood">Mood</label>
+          <select id="mood"></select>
+          <textarea id="moodCustom" class="mini-input" placeholder="Optional emotional tone"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="colorStory">Color Story</label>
+          <select id="colorStory"></select>
+          <textarea id="colorStoryCustom" class="mini-input" placeholder="Optional palette detail"></textarea>
+        </div>
+      </div>
+
+      <div class="section-divider">Cinematic Controls</div>
+      <div class="grid">
+        <div class="field">
+          <label for="lighting">Lighting</label>
+          <select id="lighting"></select>
+          <textarea id="lightingCustom" class="mini-input" placeholder="Optional lighting detail"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="shadowStyle">Shadow Style</label>
+          <select id="shadowStyle"></select>
+          <textarea id="shadowStyleCustom" class="mini-input" placeholder="Optional shadow detail"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="camera">Camera Angle</label>
+          <select id="camera"></select>
+          <textarea id="cameraCustom" class="mini-input" placeholder="Optional angle detail"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="shotType">Shot Type</label>
+          <select id="shotType"></select>
+          <textarea id="shotTypeCustom" class="mini-input" placeholder="Optional shot detail"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="lensFeel">Lens Feel</label>
+          <select id="lensFeel"></select>
+          <textarea id="lensFeelCustom" class="mini-input" placeholder="Optional lens detail"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="composition">Composition</label>
+          <select id="composition"></select>
+          <textarea id="compositionCustom" class="mini-input" placeholder="Optional composition detail"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="finish">Art Finish</label>
+          <select id="finish"></select>
+          <textarea id="finishCustom" class="mini-input" placeholder="Optional finish detail"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="detailLevel">Detail Emphasis</label>
+          <select id="detailLevel"></select>
+          <textarea id="detailLevelCustom" class="mini-input" placeholder="Optional texture detail"></textarea>
+        </div>
+      </div>
+
+      <div class="section-divider">Final Custom Layer</div>
+      <div class="grid">
+        <div class="field full">
+          <label for="customDetails">Global Custom Details</label>
+          <textarea id="customDetails" placeholder="Add extra details like blood moon, torn red cape, silver hair braid, glowing runes, cracked obsidian teeth, shattered throne, dead banners, volcanic sparks, cinematic dust, broken statues, or a specific final-stand story beat."></textarea>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="primary" id="generateBtn">Generate Prompt</button>
+      </div>
+    </section>
+
+    <section class="card panel" style="margin-top:24px;">
+      <h2>Generated Output</h2>
+      <p class="sub">Now the result comes after the setup, which makes the whole generator feel ordered and easier to use.</p>
+
+      <div class="section-divider">Photo Prompt</div>
+      <textarea id="mainOutput" class="output-box tall">Your generated dark fantasy photo prompt will appear here.</textarea>
+
+      <div class="section-divider">Short Prompt</div>
+      <textarea id="shortOutput" class="output-box short">A shorter dark fantasy prompt will appear here.</textarea>
+
+      <div class="section-divider">Video Scene Prompt</div>
+      <textarea id="videoOutput" class="output-box">A cinematic motion prompt will appear here.</textarea>
+
+      <div class="section-divider">Negative Prompt</div>
+      <textarea id="negativeOutput" class="output-box short">low detail, blurry, low contrast, muddy textures, flat lighting, soft anatomy, deformed hands, extra limbs, duplicate subjects, cartoon proportions, malformed weapons, warped claws, poor scale contrast, weak atmosphere, cluttered composition, oversaturated colors</textarea>
+
+      <div class="output-actions">
+        <button class="primary" id="copyMainBtn">Copy Photo Prompt</button>
+        <button class="secondary" id="copyVideoBtn">Copy Video Prompt</button>
+        <button class="success" id="copyNegativeBtn">Copy Negative Prompt</button>
+      </div>
+
+      <p class="note" id="statusText">Tip: Start with a preset, customize the fields, then generate once everything is in place.</p>
+    </section>
+
+    <section class="card panel" style="margin-top:24px;">
+      <h2>Example Output Ideas</h2>
+      <p class="sub">These examples show the tone and depth this generator is designed to create.</p>
+      <div class="examples">
+        <div class="example">A fallen knight, ash-streaked and unshaken, wielding a scarred iron sword and wearing battle-worn steel armor, confronting a skeletal wyvern with exposed bone, torn hide, and glowing runes during a face-to-face standoff before impact at a shattered mountain fortress, with collapsing walls and shattered towers, storm-lit shadows, deep cinematic shadow pockets, drifting ash and sparks, low-angle cinematic hero perspective, wide environmental clash shot, a powerful scale contrast between human and monster, grim mood, storm gray, ash white, and dim orange firelight, cinematic dark fantasy realism, ultra-crisp weathered textures, epic scale contrast, broken stone, torn banners, cracked metal, ash haze, cinematic tension, dramatic environmental storytelling.</div>
+        <div class="example">A rogue huntress, wild-haired and savage, gripping a rune-etched axe and wearing wolf-fur shoulders and rugged armor, confronting a shadow wolf titan surrounded by shadow vapor and burning eyes while the monster crashes down from above on a storm-battered cliffside, with total ruin and apocalyptic damage, moody side lighting with heavy contrast, razor-edged moon shadows, storm mist mixed with ash, dynamic three-quarter action angle, vertical poster hero frame, a poster-worthy final stand composition, wrathful mood, dark slate, ember gold, and rust tones, premium textured fantasy battle art, hyper-detailed scars, fur, steel, claws, smoke, and stone fragments.</div>
+        <div class="example">A battle queen, calm under pressure, wielding a glowing relic blade and wearing dark royal battle armor, confronting a horned titan beast glowing from molten veins beneath the skin as the hero braces behind a shield against the beast's charge inside a ruined throne city, with smoldering rubble and fallen arches, ember-filled infernal glow, smoky layered shadow falloff, embers floating through thick smoke, towering creature dominance angle, dramatic close-range duel shot, the creature dominating the frame while the hero anchors the scene, legendary mood, volcanic black, molten amber, and scorched earth tones, cinematic poster-style fantasy realism, rich armor engravings, shattered marble, molten cracks, smoke plumes, and final-battle tension.</div>
+      </div>
+      <div class="tag-row">
+        <div class="tag">High drama</div>
+        <div class="tag">Sellable niche</div>
+        <div class="tag">Beginner friendly</div>
+        <div class="tag">One-file HTML</div>
+      </div>
+    </section>
+
+    <div class="footer">All rights reserved by GlamorousGrammyGlowUp</div>
+  </div>
+
+  <script>
+    const options = {
+      heroType: ["barbarian warrior","battle queen","cursed prince","dragon hunter","fallen knight","monster slayer","rogue huntress","runic guardian","tribal champion","war mage","wolf-cloaked executioner","exiled royal guardian","ashen paladin","beast-tamer champion","blood oath sentinel","cathedral templar","crownless warlord","crypt ranger","desert blade mystic","doomed shield bearer","ember priestess","graveborn huntmaster","iron vow crusader","moonlit duelist","relic-bound champion","shadow oath assassin","storm herald knight","thorn-crowned ranger","void-touched battlemage","wasteland executioner"],
+      heroLook: ["battle-scarred and fierce","calm under pressure","covered in ash and dust","grim and unshaken","ragged but powerful","scarred and weathered","strong and defiant","tense and battle-ready","wild-haired and savage","worn down but unbroken","bloodstreaked and relentless","haunted but fearless","ashen-faced and focused","frostbitten and stoic","glowing-eyed and intimidating","mud-stained and exhausted","regal but battle-worn","scarred across the cheek and jaw","shadow-draped and unreadable","smoke-streaked and hardened","sunken-eyed and sleepless","towering and broad-shouldered","visibly wounded but standing tall","war-painted and feral","wind-whipped and intense","dust-covered and determined","grim-faced with clenched resolve","cold and expressionless","ferocious and unflinching","royal and wrathful"],
+      weapon: ["a curved battle sword","a heavy greatsword","a jagged dragonbone blade","a long spear","a rune-etched axe","a scarred iron sword","dual short blades","flaming enchanted steel","an ancient war hammer","a glowing relic blade","a chained execution blade","a blackened halberd","a barbed flail","a broken but sharpened longsword","a colossal cleaver","a crystal-tipped spear","a double-headed axe","a fire-scorched mace","a hooked chain sickle","a massive tower shield and sword","a moonlit silver rapier","a relic-forged trident","a rune-burned claymore","a serrated beast-hunter blade","a shadow-infused dagger set","a spiked war club","a storm-charged glaive","a sunken iron pike","a thorn-wrapped staff","an obsidian edge greatblade"],
+      armor: ["fur-and-leather war armor","battle-worn steel armor","bone-trimmed hunter gear","dark royal battle armor","layered tribal wraps and armor","monster-slayer gear with straps and belts","scorched cloak and plated armor","torn battlefield leathers","weathered mail and leather","wolf-fur shoulders and rugged armor","engraved ceremonial war armor","charred black iron plate with a torn cape","ash-dusted plated robes","blackened cathedral armor","bone-laced raider armor","chainmail under a ripped cloak","cracked obsidian pauldrons","dark leather with rune stitching","dragon-scale shoulder armor","heavy bronze war plate","hooded assassin leathers","iron-banded wasteland armor","moon-etched silver plate","patched survivor armor with belts","ritual armor with hanging charms","scarred gladiator armor","spiked executioner plate","storm-worn knight armor","tattered royal cape over plate","weatherproof hunter leathers with fur trim"],
+      creatureType: ["an ancient dragon","an armored cave leviathan","an abyssal serpent","a horned titan beast","a plague-born drake","a skeletal wyvern","a storm-scaled dragon","a volcanic drake","a demonic colossus","an obsidian-scale beast","a giant bone crawler","a swamp horror","a shadow wolf titan","a cursed forest warden","a towering undead giant","a magma troll king","a spined abyss crawler","a frostfang behemoth","a chained hellhound colossus","a ruined stone guardian","a bloodmoon chimera","a cathedral-sized gargoyle king","a corpse-fed plague titan","a crystal-hide mountain wyrm","a drowned abyss hound","a flame-throated basilisk","a graveborn titan stag","a ruin-crowned hydra","a thunder maw drake","a venom-spined cavern terror"],
+      creatureTraits: ["battle-scarred with torn wings and jagged horns","covered in cracked obsidian scales","dripping smoke and ember-lit saliva","glowing from molten veins beneath the skin","massive, ancient, and terrifyingly detailed","scarred with broken spikes and torn flesh","stone-like scaled hide with glowing eyes","thick armored plates and a brutal skull structure","towering with razor teeth and smoke-filled breath","with ember-bright eyes and heavily ridged scales","wrapped in chains, scars, and ritual markings","with fungal growth, swamp rot, and hanging moss","covered in frost crystals and split ivory horns","with exposed bone, torn hide, and glowing runes","surrounded by shadow vapor and burning eyes","with magma cracks, smoke vents, and lava spit","bearing shattered armor fragments fused into flesh","covered in corpse ash and dried blood streaks","dragging broken chains and hooked restraints","leaking cursed mist from torn joints","marked by glowing sigils across the skull and spine","matted with filth, soot, and battlefield grime","pulsing with diseased light beneath cracked hide","scarred by old spear wounds and broken blades","shedding ember flakes with every movement","studded with bone growths and splintered spikes","with glowing fungal veins and rotting muscle","with hanging strips of skin and exposed ribs","with lightning crawling across wet scales","with warped stone plates and ancient carvings"],
+      moment: ["during a face-to-face standoff before impact","just as the beast roars over the hero","mid-charge in a desperate final attack","moments before the killing blow","as the creature emerges through smoke and fire","at the gates during a last stand","in a brutal close-range confrontation","as the hero holds ground against impossible odds","while the monster descends in fury","in a violent clash inside the ruins","as the hero leaps toward the creature with raised weapon","while dodging a crushing claw strike","as the hero is backed against a broken wall but refuses to fall","while the beast lunges across the battlefield","as the hero braces behind a shield against the beast's charge","while the monster crashes down from above","as both figures circle each other through drifting ash","as the creature crushes pillars under its weight","as the hero climbs fallen stone to reach striking distance","as the hero drags a wounded leg but keeps advancing","as the monster lowers its head for a final rush","as the sky erupts behind them during the confrontation","as the warrior rises from one knee for the last stand","as the weapon ignites moments before impact","in the split second after a massive shockwave","while broken statues collapse around them","while the beast tears through the ruined gates","while the hero screams a battle cry into the storm","while the monster coils for a lethal strike","while the warrior stands between the creature and the city"],
+      environment: ["amid burning castle ruins","at a shattered mountain fortress","inside a ruined throne city","on a volcanic battlefield","within an ancient stone arena","at a broken canyon pass","inside a fallen dragon shrine","on a storm-battered cliffside","within an ash-covered wasteland","at the collapsed gates of a dead kingdom","inside a desecrated cathedral battlefield","among giant broken statues and blackened pillars","across a blood-soaked bridge of ruins","at a frost-covered citadel courtyard","beneath a shattered moon temple","deep inside a cursed forest clearing","in a drowned ruin lit by stormfire","inside a hollowed mountain stronghold","near a crumbling obsidian altar","on a battlefield of broken siege engines","through the remains of a plague-ridden village","within a firelit cavern throne hall","within a shattered desert necropolis","at the edge of a bottomless abyss","beneath a storm-wracked black tower","inside a ruined royal mausoleum","on a causeway over lava fissures","within a graveyard of fallen colossi","at the broken stairs of a mountain temple","inside the remains of a forgotten fortress city"],
+      destruction: ["with collapsing walls and shattered towers","with cracked ground and broken stone everywhere","with heavy battlefield destruction and debris","with scorched earth and fractured ruins","with smoldering rubble and fallen arches","with torn banners, broken pillars, and wreckage","with violent structural collapse in the background","with blasted ruins and burning debris","with scattered bones, rubble, and impact scars","with total ruin and apocalyptic damage","with blackened craters and split masonry","with burning siege wreckage and shattered carts","with collapsed bridges and broken stairways","with crushed statues and fractured columns","with deep claw marks carved through stone","with fire consuming the last intact structures","with lava cracks splitting the battlefield floor","with loose masonry raining down from above","with ruined battlements crumbling into dust","with shattered gates hanging off broken hinges","with smoking impact trenches across the ground","with splintered beams and broken chapel walls","with stone chunks suspended in dust clouds","with toppled monuments and cracked altars","with twisted metal, chains, and snapped supports","with uprooted dead trees and broken grave markers","with violent shockwave damage across the ruins","with war-torn debris scattered in every direction","with whole sections of the fortress torn open","with wreckage, ash, and ruin stretching into the distance"],
+      lighting: ["dramatic fiery backlight","smoky golden battle light","storm-lit shadows","ember-filled infernal glow","cold daylight breaking through smoke","lava reflections flickering across armor and scales","moody side lighting with heavy contrast","burning orange highlights against deep shadow","ashen overcast light with pockets of fire","cinematic high-contrast dark fantasy lighting","silver moonlight cutting through smoke","lightning flashes illuminating the battlefield","a blood-red eclipse glow","an eerie green cursed radiance","backlit stormfire with sharp highlights","dim cathedral light through smoke","firelight pulsing across shattered stone","flickering torchlight mixed with moonlight","harsh volcanic glow from below","icy blue light diffused through frost mist","low amber light through battlefield haze","pale dawn light over total devastation","rim light catching armor edges and claws","sickly plague-light bleeding through fog","soft gray light with sudden firebursts","sunset light drowned by smoke and ash","thunderflash highlights across wet surfaces","underlight from molten cracks","uneven ruin light with dramatic hotspots","white-hot magical glow from the weapon"],
+      shadowStyle: ["deep cinematic shadow pockets","soft smoke-diffused shadows","heavy ruin-cast shadows","razor-edged moon shadows","moody layered shadow falloff","thick backlit silhouettes and dark contrast","harsh dramatic shadows across broken stone","glow-cut shadows around the creature","dense low-key fantasy shadowing","ashen shadow haze around the battlefield","broad soft shadows under drifting smoke","deep black negative space behind the monster","diffused shadows through storm mist","heavy directional shadows across armor","jagged shadows cast by broken pillars","layered atmospheric shadows fading into ruin","long eclipse shadows stretching over stone","low-key shadows swallowing background detail","patchy firelit shadows dancing across rubble","pooling darkness around the creature's feet","ragged moving shadows in blowing ash","sharp underlight shadows from molten fissures","silhouetted forms against a burning backdrop","soft shadow veils through fog and embers","stark side-cast shadows with strong contrast","thick gloom beneath collapsed arches","uneven shadows from lightning bursts","volumetric shadow beams through smoke","warped shadows broken by debris and flame","wet-surface shadows with reflective depth"],
+      atmosphere: ["drifting ash and sparks","embers floating through thick smoke","heat distortion and battlefield haze","rolling smoke plumes and falling debris","swirling dust and glowing cinders","storm mist mixed with ash","firelight reflecting through smoke","shattered stone dust filling the air","embers, soot, and haze everywhere","violent smoke and glowing particles","a blizzard of ash over the ruins","burning cinders carried on high wind","dense fog mixed with ruin dust","embers spiraling around the hero","freezing vapor around the creature's jaws","ground mist crawling over broken stone","heavy smoke columns rising behind them","hot wind pushing sparks across the frame","lingering magical particles in the air","low fog broken by torchlight","poison haze drifting from the beast","rain mixing with soot and blood mist","slow-falling debris after a massive collapse","storm rain streaking through smoke","thick volcanic haze and ember fallout","whipping dust around shattered pillars","wild sparks bursting from impact zones","wind-torn banners snapping through smoke","frost breath and ice crystals in the air","rotting spore clouds drifting through the scene"],
+      camera: ["low-angle cinematic hero perspective","over-the-shoulder battle framing","ground-level epic confrontation shot","towering creature dominance angle","dynamic three-quarter action angle","wide fantasy battle view","tight mid-range confrontation framing","rear-view hero framing","vertical poster-style perspective","dramatic close combat angle","a diagonal action angle from the ruin floor","an elevated overlook of the battlefield","an eye-level standoff perspective","an off-center cinematic angle","an overhead devastation view","a close low angle beneath the creature","a hero-side tracking perspective","a looming creature-first perspective","a medium-low poster angle","a near-ground shot through rubble","a side-profile duel angle","a wide low angle with towering scale","an intimate danger-close perspective","an off-shoulder chase angle","an upward gaze from behind broken stone","a battlefield witness perspective","a centered mythic confrontation angle","a dynamic corner-framed perspective","a rear three-quarter heroic angle","a sweeping cinematic reveal angle"],
+      shotType: ["full body hero versus beast shot","wide environmental clash shot","tight dramatic duel shot","mid-range action shot","poster-cover hero shot","cinematic over-scale battlefield shot","foreground hero and background monster shot","impact-moment close action shot","epic wide-angle ruin shot","dramatic close-range duel shot","a battlefield panorama shot","a cinematic portrait-style action shot","a close-up on the hero before impact","a close-up on the creature's head and jaws","a full vertical poster composition","a hero-centered environmental shot","a long shot emphasizing distance and scale","a medium shot with strong weapon focus","a monster-dominant wide shot","a narrow corridor confrontation shot","a panoramic final-stand shot","a profile-versus-profile clash shot","a ruined gate showdown shot","a silhouette-heavy wide shot","a tight action crop with flying debris","a top-framed standoff shot","a widescreen cinematic poster shot","an armor-and-weapon detail shot","an extreme wide devastation shot","an up-close impact collision shot"],
+      lensFeel: ["wide cinematic lens feel","slightly compressed telephoto drama","immersive low-perspective lens feel","epic fantasy poster lens feel","dynamic motion-heavy lens feel","large-scale environmental lens feel","intimate danger-focused lens feel","high-drama concept art lens feel","theatrical feature-film lens feel","grim realism lens feel","anamorphic epic lens feel","close-combat cinematic lens feel","deep-space environmental lens feel","dramatic wide poster lens feel","heavy perspective distortion for scale","hero-focused portrait lens feel","long-lens battlefield compression","medium cinematic realism lens feel","motion-rich action lens feel","mythic key art lens feel","near-ground immersive lens feel","powerful over-scale lens feel","sharp concept-poster lens feel","slightly warped dynamic action lens feel","slow-burn atmospheric lens feel","tall vertical cover art lens feel","telephoto tension lens feel","ultra-wide devastation lens feel","visceral close-quarters lens feel","witness-to-catastrophe lens feel"],
+      composition: ["one lone hero in the foreground against a colossal beast","a powerful scale contrast between human and monster","the creature dominating the frame while the hero anchors the scene","a high-tension cinematic standoff composition","a dramatic action layout with ruined architecture behind them","a poster-worthy final stand composition","a balanced confrontation scene with strong depth","an intense center-frame clash with environmental drama","a sweeping fantasy composition with destructive scale","a story-heavy composition built around fear and bravery","a central hero silhouette with the monster towering behind","a diagonal clash composition with flying debris","a framed confrontation between broken pillars","a hero-left, monster-right cinematic balance","a layered foreground-midground-background battle layout","a low foreground rubble frame guiding the eye upward","a massive creature looming over a tiny but defiant hero","a poster composition with the weapon leading the eye","a ruin corridor composition drawing focus to the duel","a strong triangular composition between hero, weapon, and beast","a sweeping off-center composition with open negative space","a symmetrical gate confrontation composition","a tension-heavy composition with the city behind them","a vertical composition built for cover art","an environmental scale composition with tiny hero emphasis","an impact-focused composition with explosive motion lines","an isolated final-stand composition with wide emptiness","a layered smoke-and-ruin composition with deep depth","a monster-first composition with the hero framed beneath it","a mythic confrontation composition with strong silhouette readability"],
+      mood: ["apocalyptic","desperate","epic","grim","heroic","legendary","mythic","raw and savage","relentless","wrathful","bleak","catastrophic","cold and merciless","defiant","doomed but glorious","haunted","intense","ominous","primal","revenge-driven","savage and emotional","solemn","tense","tragic","unyielding","vengeful","war-torn","wildly cinematic","fear-soaked","last-stand heroic"],
+      colorStory: ["charcoal, ash gray, ember orange, and weathered bronze","deep black, scorched brown, and molten orange","dusty gray, smoky gold, and steel silver","ember red, soot black, and dark iron","faded stone, fire glow, and muted bronze","storm gray, ash white, and dim orange firelight","burnt umber, shadow black, and glowing copper","dark slate, ember gold, and rust tones","smoke gray, muted crimson, and iron steel","volcanic black, molten amber, and scorched earth tones","ashen beige, charcoal, and blood-red accents","black iron, bone white, and ember sparks","blue-gray frost tones with silver light","bronze firelight against soot-dark ruins","cold moon silver with deep blue shadow","crimson glow against dead stone gray","dark green plague haze and muddy brown stone","dusky purple skies with ember orange highlights","faded gold, smoke gray, and battle black","icy white, pale blue, and blackened steel","molten red, obsidian black, and sulfur yellow","muted tan stone, storm blue, and torch amber","rust red, ash brown, and weathered steel","shadow black, dirty ivory, and deep scarlet","slate gray, iron silver, and orange sparks","storm blue, wet stone gray, and white lightning","toxic green glow against black ruins","warm fire amber with deep ash shadows","weathered bronze, coal black, and dried blood red","white ash, black smoke, and infernal orange"],
+      finish: ["cinematic dark fantasy realism","hyper-detailed fantasy concept art","ultra-textured epic fantasy realism","gritty high-detail dark fantasy illustration","photoreal dark fantasy concept scene","cinematic poster-style fantasy realism","richly detailed heroic fantasy artwork","high-contrast dark fantasy visual storytelling","premium textured fantasy battle art","intense cinematic realism with dramatic depth","AAA fantasy key art realism","atmospheric dark fantasy matte-painting realism","brutal high-detail concept art","cover-worthy dark fantasy illustration","deeply textured cinematic poster art","epic dark fantasy splash art","grim premium concept-poster realism","high-end fantasy key visual styling","moody photoreal fantasy artwork","mythic dark fantasy promotional art","polished blockbuster fantasy realism","premium game-poster fantasy art","raw cinematic dark fantasy art","rich dark fantasy scene illustration","story-driven fantasy concept realism","stylized realism with heavy texture","ultra-detailed cinematic key art","visually dramatic fantasy cover art","weathered dark fantasy realism","world-class fantasy battle concept art"],
+      detailLevel: ["ultra-crisp weathered textures","rich armor, claw, and stone detail","heavy smoke, debris, and surface texture","hyper-detailed scales, fur, and metal","high micro-detail in ruins and atmosphere","deep material realism with grit","sharp fantasy concept art detailing","premium texture layering and contrast","engraved armor and creature-surface emphasis","dramatic texture depth with cinematic polish","battle damage visible across every surface","dense environmental detail with layered debris","fine cracks, ash, soot, and grime everywhere","high-definition ruin textures and dust breakup","intricate creature anatomy and hide texture","intricate wear on metal, leather, and fabric","micro-detail in embers, sparks, and smoke","polished but brutal material realism","precise claw, fang, and horn detailing","razor-sharp armor etching and scratches","rich atmospheric layering and particle detail","rough stone realism with broken-edge detail","sharp focus on scars, wounds, and impact marks","surface realism in scales, fur, and bone","textured cloth, belts, and torn fabric detail","ultra-detailed destruction across the environment","visible soot, rust, mud, and blood traces","weathered monument and architecture detail","weapon-surface detail with chips and engravings","world-building detail packed into every layer"]
+    };
+
+    const fields = Object.keys(options);
+    const customFields = fields.map(id => `${id}Custom`);
+
+    const presets = [
+      {
+        name: "Infernal Gate Clash",
+        note: "Fiery fortress last stand",
+        values: {
+          heroType: "fallen knight",
+          weapon: "a heavy greatsword",
+          creatureType: "a volcanic drake",
+          environment: "at the collapsed gates of a dead kingdom",
+          lighting: "ember-filled infernal glow",
+          mood: "desperate"
+        }
+      },
+      {
+        name: "Ash Queen Standoff",
+        note: "Royal armor and ruin drama",
+        values: {
+          heroType: "battle queen",
+          armor: "dark royal battle armor",
+          creatureType: "a horned titan beast",
+          environment: "inside a ruined throne city",
+          camera: "towering creature dominance angle",
+          mood: "legendary"
+        }
+      },
+      {
+        name: "Storm Wyvern Hunt",
+        note: "Cliffside lightning battle",
+        values: {
+          heroType: "rogue huntress",
+          creatureType: "a skeletal wyvern",
+          environment: "on a storm-battered cliffside",
+          lighting: "lightning flashes illuminating the battlefield",
+          atmosphere: "storm mist mixed with ash",
+          mood: "relentless"
+        }
+      },
+      {
+        name: "Dragon Shrine Ambush",
+        note: "Ancient stone and ritual danger",
+        values: {
+          heroType: "dragon hunter",
+          creatureType: "an ancient dragon",
+          environment: "inside a fallen dragon shrine",
+          creatureTraits: "wrapped in chains, scars, and ritual markings",
+          composition: "a story-heavy composition built around fear and bravery",
+          mood: "mythic"
+        }
+      },
+      {
+        name: "Cursed Frost Duel",
+        note: "Cold terror with broken stone",
+        values: {
+          heroType: "cursed prince",
+          creatureType: "a frostfang behemoth",
+          creatureTraits: "covered in frost crystals and split ivory horns",
+          lighting: "silver moonlight cutting through smoke",
+          colorStory: "storm gray, ash white, and dim orange firelight",
+          mood: "grim"
+        }
+      },
+      {
+        name: "Abyss Arena Break",
+        note: "Savage arena monster clash",
+        values: {
+          heroType: "barbarian warrior",
+          weapon: "a rune-etched axe",
+          creatureType: "an abyssal serpent",
+          environment: "within an ancient stone arena",
+          destruction: "with cracked ground and broken stone everywhere",
+          mood: "raw and savage"
+        }
+      }
+    ];
+
+    function fillSelect(id, values) {
+      const select = document.getElementById(id);
+      select.innerHTML = values.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join("");
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function getValue(id) {
+      const el = document.getElementById(id);
+      return el ? el.value.trim() : "";
+    }
+
+    function randomChoice(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function mergeCustom(base, custom) {
+      return custom ? `${base}, ${custom}` : base;
+    }
+
+    function buildPromptParts() {
+      const data = {};
+      fields.forEach(id => data[id] = getValue(id));
+      customFields.forEach(id => data[id] = getValue(id));
+      data.customDetails = getValue("customDetails");
+
+      const heroType = mergeCustom(data.heroType, data.heroTypeCustom);
+      const heroLook = mergeCustom(data.heroLook, data.heroLookCustom);
+      const weapon = mergeCustom(data.weapon, data.weaponCustom);
+      const armor = mergeCustom(data.armor, data.armorCustom);
+      const creatureType = mergeCustom(data.creatureType, data.creatureTypeCustom);
+      const creatureTraits = mergeCustom(data.creatureTraits, data.creatureTraitsCustom);
+      const moment = mergeCustom(data.moment, data.momentCustom);
+      const environment = mergeCustom(data.environment, data.environmentCustom);
+      const destruction = mergeCustom(data.destruction, data.destructionCustom);
+      const atmosphere = mergeCustom(data.atmosphere, data.atmosphereCustom);
+      const mood = mergeCustom(`${data.mood} mood`, data.moodCustom);
+      const colorStory = mergeCustom(data.colorStory, data.colorStoryCustom);
+      const lighting = mergeCustom(data.lighting, data.lightingCustom);
+      const shadowStyle = mergeCustom(data.shadowStyle, data.shadowStyleCustom);
+      const camera = mergeCustom(data.camera, data.cameraCustom);
+      const shotType = mergeCustom(data.shotType, data.shotTypeCustom);
+      const lensFeel = mergeCustom(data.lensFeel, data.lensFeelCustom);
+      const composition = mergeCustom(data.composition, data.compositionCustom);
+      const finish = mergeCustom(data.finish, data.finishCustom);
+      const detailLevel = mergeCustom(data.detailLevel, data.detailLevelCustom);
+      const customDetails = data.customDetails ? `, ${data.customDetails}` : "";
+
+      return {
+        data,
+        heroType,
+        heroLook,
+        weapon,
+        armor,
+        creatureType,
+        creatureTraits,
+        moment,
+        environment,
+        destruction,
+        atmosphere,
+        mood,
+        colorStory,
+        lighting,
+        shadowStyle,
+        camera,
+        shotType,
+        lensFeel,
+        composition,
+        finish,
+        detailLevel,
+        customDetails
+      };
+    }
+
+    function generatePrompt() {
+      const p = buildPromptParts();
+
+      const mainPrompt = `${p.heroType}, ${p.heroLook}, wielding ${p.weapon}, wearing ${p.armor}, confronting ${p.creatureType} ${p.creatureTraits} ${p.moment} ${p.environment}, ${p.destruction}, ${p.lighting}, ${p.shadowStyle}, ${p.atmosphere}, ${p.camera}, ${p.shotType}, ${p.lensFeel}, ${p.composition}, ${p.mood}, ${p.colorStory}, ${p.finish}, ${p.detailLevel}, epic scale contrast, highly detailed armor, cracked stone, smoke, ash, embers, creature anatomy, brutal texture depth, cinematic tension, dramatic environmental storytelling${p.customDetails}`;
+
+      const shortPrompt = `${p.data.heroType} vs ${p.data.creatureType}, ${p.data.environment}, ${p.data.lighting}, ${p.data.mood}, ${p.data.finish}`;
+
+      const videoPrompt = `Cinematic dark fantasy battle scene: ${p.heroType} ${p.moment} ${p.environment} while confronting ${p.creatureType} ${p.creatureTraits}. The hero is wielding ${p.weapon} and wearing ${p.armor}. Scene mood is ${p.mood}. Use ${p.camera}, ${p.shotType}, and ${p.lensFeel}. Lighting is ${p.lighting} with ${p.shadowStyle}. Atmosphere includes ${p.atmosphere}. Show ${p.destruction}. Keep ${p.composition}. Emphasize ${p.colorStory}, ${p.finish}, ${p.detailLevel}, subtle motion in smoke, debris, cloth, sparks, and creature breath, with intense cinematic pacing and a final-stand feeling${p.customDetails}.`;
+
+      document.getElementById("mainOutput").value = mainPrompt;
+      document.getElementById("shortOutput").value = shortPrompt;
+      document.getElementById("videoOutput").value = videoPrompt;
+      setStatus("Prompt generated.");
+    }
+
+    function randomizeAll() {
+      fields.forEach(id => {
+        document.getElementById(id).value = randomChoice(options[id]);
+      });
+
+      const customIdeas = [
+        "blood moon overhead, torn crimson cape, cracked obsidian teeth",
+        "glowing runes across the ruined floor, molten spit, falling ash",
+        "shattered statues, ember gusts, black smoke trails, broken gate chains",
+        "silver hair braid, weathered fur trim, scorched banners, giant claw marks",
+        "burning watchtowers in the distance, sparks around the blade, collapsing arches",
+        "ancient sigils, dead trees, volcanic haze, chunks of stone suspended in dust"
+      ];
+
+      const tinyIdeas = [
+        "scarred jawline",
+        "torn fabric edges",
+        "glowing eye reflections",
+        "engraved metal details",
+        "bloodstained gauntlets",
+        "wind-whipped hair"
+      ];
+
+      customFields.forEach(id => {
+        document.getElementById(id).value = Math.random() > 0.65 ? randomChoice(tinyIdeas) : "";
+      });
+
+      document.getElementById("customDetails").value = randomChoice(customIdeas);
+      generatePrompt();
+    }
+
+    function clearAll() {
+      fields.forEach(id => {
+        document.getElementById(id).selectedIndex = 0;
+      });
+      customFields.forEach(id => document.getElementById(id).value = "");
+      document.getElementById("customDetails").value = "";
+      document.getElementById("mainOutput").value = "Your generated dark fantasy photo prompt will appear here.";
+      document.getElementById("shortOutput").value = "A shorter dark fantasy prompt will appear here.";
+      document.getElementById("videoOutput").value = "A cinematic motion prompt will appear here.";
+      setStatus("Fields cleared.");
+    }
+
+    function copyFrom(id, successMessage) {
+      const target = document.getElementById(id);
+      const text = target.value.trim();
+      if (!text || /appear here\.$/.test(text)) {
+        setStatus("Generate a prompt first.");
+        return;
+      }
+
+      navigator.clipboard.writeText(text).then(() => {
+        setStatus(successMessage);
+      }).catch(() => {
+        target.focus();
+        target.select();
+        document.execCommand("copy");
+        setStatus(successMessage);
+      });
+    }
+
+    function setStatus(message) {
+      document.getElementById("statusText").textContent = message;
+    }
+
+    function applyPreset(preset) {
+      Object.entries(preset.values).forEach(([id, value]) => {
+        const select = document.getElementById(id);
+        if (select) select.value = value;
+      });
+      document.getElementById("customDetails").value = preset.note.toLowerCase().includes("fiery")
+        ? "burning debris, torn banners, sparks, heavy smoke, final stand energy"
+        : "cinematic debris, ruin dust, intense scale contrast, dramatic environmental storytelling";
+      generatePrompt();
+      setStatus(`${preset.name} preset applied.`);
+    }
+
+    function buildPresetButtons() {
+      const holder = document.getElementById("presetGrid");
+      holder.innerHTML = "";
+      presets.forEach((preset) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "preset-btn";
+        btn.innerHTML = `${preset.name}<span>${preset.note}</span>`;
+        btn.addEventListener("click", () => applyPreset(preset));
+        holder.appendChild(btn);
+      });
+    }
+
+    function smartFill() {
+      const preset = randomChoice(presets);
+      applyPreset(preset);
+    }
+
+    fields.forEach(id => fillSelect(id, options[id]));
+    buildPresetButtons();
+
+    document.getElementById("generateBtn").addEventListener("click", generatePrompt);
+    document.getElementById("randomBtn").addEventListener("click", randomizeAll);
+    document.getElementById("smartFillBtn").addEventListener("click", smartFill);
+    document.getElementById("clearBtn").addEventListener("click", clearAll);
+    document.getElementById("copyMainBtn").addEventListener("click", () => copyFrom("mainOutput", "Photo prompt copied."));
+    document.getElementById("copyVideoBtn").addEventListener("click", () => copyFrom("videoOutput", "Video prompt copied."));
+    document.getElementById("copyNegativeBtn").addEventListener("click", () => copyFrom("negativeOutput", "Negative prompt copied."));
+
+    randomizeAll();
+  </script>
+</body>
+</html>
